@@ -76,6 +76,12 @@ let imageSources = [
 	"./images/3.jpg",
 	"./images/4.jpg",
 	"./images/5.jpg",
+	"./images/6.jpg",
+	"./images/7.jpg",
+	"./images/8.jpg",
+	"./images/9.jpg",
+	"./images/10.jpg",
+	"./images/11.jpg",
 ];
 const loadedImages = [];
 const imageBursts = [];
@@ -546,10 +552,7 @@ function handleStateChange(state, prevState) {
 
 store.subscribe(handleStateChange);
 
-// ===== LỜI CHÚC BAY TRÊN TRỜI (OVERLAY TRÊN CANVAS) =====
 
-// Mảng câu chúc màu hồng
-// Mảng câu chúc dành cho mèo cưng
 let WISH_MESSAGES = [
     // "Chúc mọi điều ước của em đều trở thành hiện thực ✨",
     // "Chúc gia đình em luôn bình an và hạnh phúc ❤️",
@@ -557,14 +560,12 @@ let WISH_MESSAGES = [
     // "Chúc công việc thuận lợi, thăng tiến không ngừng 🚀",
     // "Chúc em luôn mỉm cười và yêu đời mỗi ngày 😊",
     // "Chúc em gặp nhiều may mắn và niềm vui 🎉",
-    "Chúc đại boss hay ăn chóng lớn, khỏe mạnh mỗi ngày 🐾",
-    "Chúc con luôn có bộ lông mượt mà và đôi mắt sáng ngời ✨",
-    "Chúc hoàng thượng luôn tràn ngập pate và hạt ngon mỗi bữa 🐟",
-    "Chúc con luôn ngoan ngoãn (bớt quậy phá đồ đạc nhé) ❤️",
-    "Chúc bé mèo luôn quấn quýt và là niềm vui nhỏ bé của sen 💪",
-    "Chúc con có những giấc ngủ ngon và những buổi sưởi nắng thật chill ☀️",
-    "Chúc con luôn nhanh nhẹn, bắt được thật nhiều 'chuột đồ chơi' nha 🐭",
-    "Chúc bé mèo luôn bình an và sống thật lâu bên cạnh mình 🎉",
+    "Chúc Chóa hay ăn chóng lớn, khỏe mạnh mỗi ngày 🐾",
+    "Chúc Chóa luôn có bộ lông mượt mà và đôi mắt sáng ngời ✨",
+    "Chúc Chóa luôn tràn ngập pate và hạt ngon mỗi bữa 🐟",
+    "Chúc Chóa luôn ngoan ngoãn (bớt quậy phá đồ đạc nhé) ❤️",
+    "Chúc Chóa luôn quấn quýt và là niềm vui nhỏ bé của sen 💪",
+    "Chúc bé Chóa luôn bình an và sống thật lâu bên cạnh mình 🎉",
 ];
 
 // Hàm helper để tính toán vị trí ngang phân bố đều hơn, tránh khoảng trống
