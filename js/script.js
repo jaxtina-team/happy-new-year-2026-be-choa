@@ -849,6 +849,7 @@ let wishesStarted = false;
 let wishesIntervalId = null;
 let wishesStopped = false; // Trạng thái dừng tạo câu chúc mới
 let introCompleted = false; // Trạng thái intro đã hoàn thành
+let wishesAutoStopTimer = null; // Timer để tự động dừng câu chúc sau một khoảng thời gian
 
 // Biến global để lưu transform của toàn bộ không gian (3D camera) - giống OrbitControls
 let globalWishRotationX = 0; // Xoay theo trục X (lên xuống)
@@ -974,6 +975,31 @@ function startWishesLoop() {
 			}
 		}
 	}, intervalDelay);
+
+	// Tự động dừng câu chúc sau 45 giây để cho phép ảnh xuất hiện trong pháo hoa
+	// Sau đó tự động bật lại sau 30 giây nữa (chu kỳ: 45s có chữ, 30s chỉ ảnh)
+	if (wishesAutoStopTimer) {
+		clearTimeout(wishesAutoStopTimer);
+	}
+	wishesAutoStopTimer = setTimeout(() => {
+		stopWishesLoop();
+		console.log('✅ Tự động dừng câu chúc để hiển thị ảnh pháo hoa');
+		
+		// Tự động bật lại câu chúc sau 30 giây (chỉ nếu vẫn đang chạy pháo hoa)
+		setTimeout(() => {
+			// Kiểm tra xem pháo hoa vẫn đang chạy (từ store state)
+			const currentState = store.state;
+			const stillRunning = !currentState.paused && !currentState.menuOpen && currentState.config.autoLaunch;
+			
+			// Chỉ bật lại nếu pháo hoa vẫn chạy và đã bị dừng (có thể là tự động hoặc thủ công)
+			// Nhưng nếu người dùng đã ấn nút dừng thủ công, họ có thể đã set wishesStopped = true
+			// Nên ta sẽ reset và thử bắt đầu lại
+			if (stillRunning) {
+				wishesStopped = false; // Reset để có thể bắt đầu lại
+				startWishesLoop();
+			}
+		}, 30000);
+	}, 45000); // 45 giây
 }
 
 // Dừng việc tạo câu chúc mới (các câu chúc đang bay sẽ tiếp tục hoàn thành)
@@ -986,6 +1012,11 @@ function stopWishesLoop() {
 	wishesStarted = false; // Cho phép bắt đầu lại sau này nếu cần
 	// Bật lại finale mode và ảnh khi ẩn câu chúc
 	imageBurstEnabled = true;
+	// Xóa timer tự động dừng nếu có
+	if (wishesAutoStopTimer) {
+		clearTimeout(wishesAutoStopTimer);
+		wishesAutoStopTimer = null;
+	}
 }
 
 // Lấy cấu hình từ trạng thái DOM
@@ -1497,12 +1528,10 @@ function init() {
 	}
 
 	// Sau 10s kể từ khi bắt đầu show mới bật random ảnh trong pháo
-	// NHƯNG chỉ khi không có câu chúc đang bay
+	// Bật luôn sau 10s, không cần chờ câu chúc dừng (vì sẽ tự động dừng sau 45s)
 	setTimeout(() => {
-		if (!hasActiveWishes()) {
-			imageBurstEnabled = true;
-		}
-	}, 20000);
+		imageBurstEnabled = true;
+	}, 10000);
 
 	// Populate dropdowns
 	function setOptionsForSelect(node, options) {
