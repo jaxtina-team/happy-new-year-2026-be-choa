@@ -976,14 +976,13 @@ function startWishesLoop() {
 		}
 	}, intervalDelay);
 
-	// Tự động dừng câu chúc sau 45 giây để cho phép ảnh xuất hiện trong pháo hoa
-	// Sau đó tự động bật lại sau 30 giây nữa (chu kỳ: 45s có chữ, 30s chỉ ảnh)
+	// Tự động dừng câu chúc sau 30 giây để cho phép ảnh xuất hiện trong pháo hoa
+	// Sau đó tự động bật lại sau 30 giây nữa (chu kỳ: 30s có chữ, 30s chỉ ảnh)
 	if (wishesAutoStopTimer) {
 		clearTimeout(wishesAutoStopTimer);
 	}
 	wishesAutoStopTimer = setTimeout(() => {
 		stopWishesLoop();
-		console.log('✅ Tự động dừng câu chúc để hiển thị ảnh pháo hoa');
 		
 		// Tự động bật lại câu chúc sau 30 giây (chỉ nếu vẫn đang chạy pháo hoa)
 		setTimeout(() => {
@@ -999,7 +998,7 @@ function startWishesLoop() {
 				startWishesLoop();
 			}
 		}, 30000);
-	}, 45000); // 45 giây
+	}, 30000); // 30 giây
 }
 
 // Dừng việc tạo câu chúc mới (các câu chúc đang bay sẽ tiếp tục hoàn thành)
